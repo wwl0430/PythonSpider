@@ -1,0 +1,18 @@
+from re import findall
+from urllib.request import urlopen
+
+url ='https://mp.weixin.qq.com/s?__biz=MjM5OTA2NDkzNw==&mid=2654713308&idx=1&sn=ee6708512ba1d6a29465cf2e14a2999b&chksm=bd0e31da8a79b8cc2dc96cb4c2c489f662988cd84acbfaac888c13b0d1efb66bc214da8f681c&scene=0&xtrack=1#rd'
+
+
+
+with urlopen(url) as fp:
+    content = fp.read().decode()
+    
+#pattern = 'data-type="png" data-src="(.+?)"'
+pattern = 'img src="(.+?)"'
+
+result = findall(pattern,content)
+for index,item in enumerate(result):
+    with urlopen(str(item)) as fp:
+        with open(str(index)+'.png','wb') as fp1:
+            fp1.write(fp.read())
